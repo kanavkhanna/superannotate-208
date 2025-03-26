@@ -192,14 +192,14 @@ export function ReviewSection({ shopId, reviews: initialReviews, onReviewChange 
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h3 className="text-xl font-semibold text-[#5E3A21] flex items-center gap-2">
+        <h3 className="text-xl font-semibold text-primary flex items-center gap-2">
           <Coffee className="h-5 w-5" />
           Customer Reviews
         </h3>
 
-        <Card className="overflow-hidden bg-white shadow-sm">
+        <Card className="overflow-hidden bg-card shadow-sm">
           <CardContent className="p-4">
-            <h4 className="font-medium mb-3 text-[#5E3A21]">Write a Review</h4>
+            <h4 className="font-medium mb-3 text-primary">Write a Review</h4>
 
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -208,7 +208,7 @@ export function ReviewSection({ shopId, reviews: initialReviews, onReviewChange 
                   name="rating"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[#5E3A21]">Rating</FormLabel>
+                      <FormLabel className="text-primary">Rating</FormLabel>
                       <FormControl>
                         <div className="flex items-center">
                           {[1, 2, 3, 4, 5].map((star) => (
@@ -221,14 +221,14 @@ export function ReviewSection({ shopId, reviews: initialReviews, onReviewChange 
                             >
                               <Star
                                 className={`h-6 w-6 ${
-                                  star <= field.value ? "fill-[#F9A826] text-[#F9A826]" : "text-[#E6C9A8]"
+                                  star <= field.value ? "fill-amber-500 text-amber-500" : "text-muted"
                                 }`}
                               />
                             </button>
                           ))}
                         </div>
                       </FormControl>
-                      <FormMessage className="text-red-500" />
+                      <FormMessage className="text-destructive" />
                     </FormItem>
                   )}
                 />
@@ -238,15 +238,15 @@ export function ReviewSection({ shopId, reviews: initialReviews, onReviewChange 
                   name="comment"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[#5E3A21]">Your Review</FormLabel>
+                      <FormLabel className="text-primary">Your Review</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Share your experience..."
-                          className="min-h-[100px] resize-none border-[#E6C9A8] focus-visible:ring-[#8B5A3C]"
+                          className="min-h-[100px] resize-none"
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage className="text-red-500" />
+                      <FormMessage className="text-destructive" />
                     </FormItem>
                   )}
                 />
@@ -258,11 +258,7 @@ export function ReviewSection({ shopId, reviews: initialReviews, onReviewChange 
                   </Alert>
                 )}
 
-                <Button
-                  type="submit"
-                  className="w-full transition-all bg-[#5E3A21] hover:bg-[#8B5A3C] active:scale-[0.98]"
-                  disabled={isSubmitting}
-                >
+                <Button type="submit" className="w-full transition-all active:scale-[0.98]" disabled={isSubmitting}>
                   {isSubmitting ? "Submitting..." : "Submit Review"}
                 </Button>
               </form>
@@ -271,24 +267,24 @@ export function ReviewSection({ shopId, reviews: initialReviews, onReviewChange 
         </Card>
       </div>
 
-      <Separator className="bg-[#E6C9A8]" />
+      <Separator />
 
       <div className="space-y-4">
         {reviews.length === 0 ? (
-          <div className="rounded-lg bg-white p-8 text-center shadow-sm">
-            <p className="text-[#8B5A3C]">No reviews yet. Be the first to leave a review!</p>
+          <div className="rounded-lg bg-card p-8 text-center shadow-sm">
+            <p className="text-muted-foreground">No reviews yet. Be the first to leave a review!</p>
           </div>
         ) : (
           reviews.map((review) => (
-            <div key={review.id} className="rounded-lg bg-white p-4 transition-all hover:shadow-sm">
+            <div key={review.id} className="rounded-lg bg-card p-4 transition-all hover:shadow-sm">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                  <Avatar className="h-8 w-8 border border-[#E6C9A8]">
-                    <AvatarFallback className="bg-[#FDF6EC] text-[#5E3A21]">{review.user.charAt(0)}</AvatarFallback>
+                  <Avatar className="h-8 w-8 border border-muted">
+                    <AvatarFallback className="bg-muted text-primary">{review.user.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium text-[#5E3A21]">{review.user}</p>
-                    <p className="text-xs text-[#8B5A3C]">
+                    <p className="font-medium text-primary">{review.user}</p>
+                    <p className="text-xs text-muted-foreground">
                       {new Date(review.date).toLocaleDateString(undefined, {
                         year: "numeric",
                         month: "short",
@@ -302,9 +298,7 @@ export function ReviewSection({ shopId, reviews: initialReviews, onReviewChange 
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-3.5 w-3.5 ${
-                          i < review.rating ? "fill-[#F9A826] text-[#F9A826]" : "text-[#E6C9A8]"
-                        }`}
+                        className={`h-3.5 w-3.5 ${i < review.rating ? "fill-amber-500 text-amber-500" : "text-muted"}`}
                       />
                     ))}
                   </div>
@@ -322,7 +316,7 @@ export function ReviewSection({ shopId, reviews: initialReviews, onReviewChange 
                   )}
                 </div>
               </div>
-              <p className="mt-3 text-sm text-[#8B5A3C]">{review.comment}</p>
+              <p className="mt-3 text-sm text-muted-foreground">{review.comment}</p>
             </div>
           ))
         )}
@@ -330,19 +324,15 @@ export function ReviewSection({ shopId, reviews: initialReviews, onReviewChange 
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="bg-white">
+        <DialogContent className="bg-background">
           <DialogHeader>
-            <DialogTitle className="text-[#5E3A21]">Delete Review</DialogTitle>
-            <DialogDescription className="text-[#8B5A3C]">
+            <DialogTitle className="text-primary">Delete Review</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               Are you sure you want to delete this review? This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={closeDeleteDialog}
-              className="border-[#E6C9A8] text-[#5E3A21] hover:bg-[#FDF6EC]"
-            >
+            <Button variant="outline" onClick={closeDeleteDialog}>
               Cancel
             </Button>
             <Button variant="destructive" onClick={confirmDeleteReview}>

@@ -6,20 +6,20 @@ import { Coffee } from "lucide-react"
 
 // Ensure the global review store is properly initialized
 const initGlobalReviewStore = `
-  if (typeof window !== 'undefined') {
-    if (!window.__REVIEW_STORE) {
-      window.__REVIEW_STORE = {};
-    }
+if (typeof window !== 'undefined') {
+  if (!window.__REVIEW_STORE) {
+    window.__REVIEW_STORE = {};
   }
+}
 `
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#FDF6EC]">
+    <div className="flex flex-col min-h-screen">
       {/* Add script to initialize global review store */}
       <script dangerouslySetInnerHTML={{ __html: initGlobalReviewStore }} />
 
-      <header className="bg-[#5E3A21] text-white shadow-md">
+      <header className="bg-primary text-primary-foreground shadow-md">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between py-4">
           <h1
             className="text-2xl font-bold tracking-tight flex items-center gap-2 cursor-pointer"
@@ -27,7 +27,7 @@ export default function Home() {
           >
             <Coffee className="h-6 w-6" />
             <span>
-              Brew<span className="text-[#E6C9A8]">Finder</span>
+              Brew<span className="text-muted">Finder</span>
             </span>
           </h1>
         </div>
@@ -35,10 +35,10 @@ export default function Home() {
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
         <div className="mx-auto max-w-5xl">
           <div className="mb-8 space-y-2 text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-[#5E3A21] sm:text-4xl md:text-5xl">
+            <h2 className="text-3xl font-bold tracking-tight text-primary sm:text-4xl md:text-5xl">
               Discover Local Coffee Shops
             </h2>
-            <p className="mx-auto max-w-[700px] text-[#8B5A3C] md:text-lg">
+            <p className="mx-auto max-w-[700px] text-muted-foreground md:text-lg">
               Find the perfect spot for your coffee break, work session, or casual meetup.
             </p>
           </div>
@@ -46,7 +46,7 @@ export default function Home() {
           <CoffeeShopList />
         </div>
       </main>
-      <footer className="bg-[#5E3A21] text-white mt-auto">
+      <footer className="bg-primary text-primary-foreground mt-auto sticky bottom-0">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm">
           © {new Date().getFullYear()} BrewFinder. All rights reserved.
         </div>

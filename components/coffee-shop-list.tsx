@@ -20,19 +20,10 @@ export type FilterState = {
   quietSpace: boolean
 }
 
-export type SearchState = {
-  searchTerm: string
-  filters: FilterState
-  setSearchTerm: (term: string) => void
-  setFilters: (filters: FilterState) => void
-  clearSearch: () => void
-  clearFilters: () => void
-}
-
 // Extend Window interface to include our global review store
 declare global {
   interface Window {
-    coffeeShopSearch: {
+    coffeeShopSearch?: {
       setSearchTerm: (term: string) => void
       setFilters: (filters: FilterState) => void
       clearSearch: () => void
@@ -61,7 +52,9 @@ export function CoffeeShopList() {
 
   // Initialize review store from window if it exists
   useEffect(() => {
-    initializeFromWindow()
+    if (typeof window !== "undefined") {
+      initializeFromWindow()
+    }
   }, [])
 
   // Apply search and filters
@@ -133,8 +126,6 @@ export function CoffeeShopList() {
         await new Promise((resolve) => setTimeout(resolve, 1000))
 
         setFilteredShops(allShops)
-
-        // Remove initial loading toast - not necessary for every page load
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message)
@@ -179,7 +170,9 @@ export function CoffeeShopList() {
 
     return () => {
       // Sync our review store to window before unmounting
-      syncToWindow()
+      if (typeof window !== "undefined") {
+        syncToWindow()
+      }
     }
   }, [filters, searchTerm])
 
@@ -189,17 +182,21 @@ export function CoffeeShopList() {
       setSelectedShop(null)
     }
 
-    // Find the logo element and add click handler
-    const logoElement = document.querySelector("h1.cursor-pointer")
-    if (logoElement) {
-      logoElement.addEventListener("click", handleLogoClick)
-    }
-
-    return () => {
+    if (typeof window !== "undefined") {
+      // Find the logo element and add click handler
+      const logoElement = document.querySelector("h1.cursor-pointer")
       if (logoElement) {
-        logoElement.removeEventListener("click", handleLogoClick)
+        logoElement.addEventListener("click", handleLogoClick)
+      }
+
+      return () => {
+        if (logoElement) {
+          logoElement.removeEventListener("click", handleLogoClick)
+        }
       }
     }
+
+    return undefined
   }, [])
 
   const handleRetry = () => {
@@ -224,9 +221,10 @@ export function CoffeeShopList() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        {[...Array(3)].map((_, index) => (
-          <div key={index} className="h-[300px] rounded-lg bg-[#E6C9A8]/30 animate-pulse" />
+      // Fix skeleton loader to match grid layout
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {[...Array(6)].map((_, index) => (
+          <div key={index} className="h-[400px] rounded-lg bg-muted animate-pulse" />
         ))}
       </div>
     )
@@ -234,17 +232,12 @@ export function CoffeeShopList() {
 
   if (error) {
     return (
-      <Alert variant="destructive" className="bg-white border-red-300">
+      <Alert variant="destructive" className="bg-card">
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Error</AlertTitle>
         <AlertDescription className="flex flex-col gap-4">
           <p>{error}</p>
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-fit border-[#5E3A21] text-[#5E3A21] hover:bg-[#FDF6EC]"
-            onClick={handleRetry}
-          >
+          <Button variant="outline" size="sm" className="w-fit" onClick={handleRetry}>
             <RefreshCcw className="mr-2 h-4 w-4" />
             Retry
           </Button>
@@ -283,12 +276,12 @@ export function CoffeeShopList() {
 
   if (filteredShops.length === 0) {
     return (
-      <Alert className="py-8 bg-white border-[#E6C9A8]">
+      <Alert className="py-8 bg-card">
         <div className="flex items-center gap-2">
-          <Coffee className="h-5 w-5 text-[#5E3A21]" />
-          <AlertTitle className="text-lg text-[#5E3A21] mt-0">No coffee shops found</AlertTitle>
+          <Coffee className="h-5 w-5 text-primary" />
+          <AlertTitle className="text-lg text-primary mt-0">No coffee shops found</AlertTitle>
         </div>
-        <AlertDescription className="mt-2 text-[#8B5A3C]">
+        <AlertDescription className="mt-2 text-muted-foreground">
           Try adjusting your search or filter criteria to find coffee shops.
         </AlertDescription>
       </Alert>
@@ -320,8 +313,6 @@ export function CoffeeShopList() {
               onClick={() => {
                 try {
                   setSelectedShop(shop.id)
-
-                  // Remove toast for shop selection - not a high-value notification
                 } catch (error) {
                   if (error instanceof Error) {
                     toast.error("Error", {

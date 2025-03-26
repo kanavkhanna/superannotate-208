@@ -33,7 +33,7 @@ export function CoffeeShopCard({ shop, onClick }: CoffeeShopCardProps) {
 
   return (
     <Card
-      className="group overflow-hidden transition-all duration-300 hover:shadow-lg bg-white cursor-pointer"
+      className="group overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer"
       onClick={onClick}
     >
       <div className="relative aspect-[4/3] overflow-hidden">
@@ -48,7 +48,7 @@ export function CoffeeShopCard({ shop, onClick }: CoffeeShopCardProps) {
           <p className="line-clamp-2 text-sm">{shop.description}</p>
         </div>
         <div className="absolute top-2 right-2">
-          <Badge className="bg-[#5E3A21] text-white hover:bg-[#8B5A3C]">
+          <Badge className="bg-primary text-primary-foreground">
             <Coffee className="h-3 w-3 mr-1" />
             Coffee Shop
           </Badge>
@@ -56,19 +56,19 @@ export function CoffeeShopCard({ shop, onClick }: CoffeeShopCardProps) {
       </div>
       <CardContent className="p-4">
         <div className="flex justify-between items-start">
-          <h3 className="text-xl font-semibold text-[#5E3A21]">{shop.name}</h3>
-          <div className="flex items-center rounded-full bg-[#FDF6EC] px-2 py-1">
-            <Star className="h-3.5 w-3.5 fill-[#F9A826] text-[#F9A826] mr-1" />
-            <span className="text-sm font-medium text-[#8B5A3C]">{averageRating.toFixed(1)}</span>
+          <h3 className="text-xl font-semibold text-primary">{shop.name}</h3>
+          <div className="flex items-center rounded-full bg-muted px-2 py-1">
+            <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500 mr-1" />
+            <span className="text-sm font-medium text-muted-foreground">{averageRating.toFixed(1)}</span>
           </div>
         </div>
-        <div className="flex items-center text-[#8B5A3C] mt-1 mb-3">
+        <div className="flex items-center text-muted-foreground mt-1 mb-3">
           <MapPin className="h-3.5 w-3.5 mr-1" />
           <span className="text-xs">
             {shop.location.address}, {shop.location.city}
           </span>
         </div>
-        <div className="flex items-center text-[#8B5A3C] mb-3">
+        <div className="flex items-center text-muted-foreground mb-3">
           <Clock className="h-3.5 w-3.5 mr-1" />
           <span className="text-xs">
             {shop.hours.open} - {shop.hours.close}
@@ -78,7 +78,7 @@ export function CoffeeShopCard({ shop, onClick }: CoffeeShopCardProps) {
           {shop.amenities.wifi && (
             <Badge
               variant="outline"
-              className="flex items-center gap-1 text-xs bg-[#FDF6EC] border-[#E6C9A8] text-[#8B5A3C]"
+              className="flex items-center gap-1 text-xs bg-muted border-border text-muted-foreground"
             >
               <Wifi className="h-3 w-3" />
               WiFi
@@ -87,7 +87,7 @@ export function CoffeeShopCard({ shop, onClick }: CoffeeShopCardProps) {
           {shop.amenities.seating && (
             <Badge
               variant="outline"
-              className="flex items-center gap-1 text-xs bg-[#FDF6EC] border-[#E6C9A8] text-[#8B5A3C]"
+              className="flex items-center gap-1 text-xs bg-muted border-border text-muted-foreground"
             >
               <Users className="h-3 w-3" />
               Seating
@@ -98,7 +98,7 @@ export function CoffeeShopCard({ shop, onClick }: CoffeeShopCardProps) {
       <CardFooter className="p-4 pt-0">
         <Button
           variant="default"
-          className="w-full transition-all bg-[#5E3A21] hover:bg-[#8B5A3C] active:scale-[0.98]"
+          className="w-full transition-all active:scale-[0.98]"
           onClick={(e) => {
             e.stopPropagation() // Prevent triggering the card's onClick
             onClick()

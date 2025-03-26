@@ -40,7 +40,7 @@ export function FilterBar() {
 
   // Sync with global search state
   useEffect(() => {
-    if (window.coffeeShopSearch) {
+    if (typeof window !== "undefined" && window.coffeeShopSearch) {
       // Initialize form with current search term
       const currentTerm = window.coffeeShopSearch.getSearchTerm()
       if (currentTerm) {
@@ -63,7 +63,7 @@ export function FilterBar() {
       setFilters(newFilters)
 
       // Update global search state
-      if (window.coffeeShopSearch) {
+      if (typeof window !== "undefined" && window.coffeeShopSearch) {
         window.coffeeShopSearch.setFilters(newFilters)
       }
     } catch (error) {
@@ -88,7 +88,7 @@ export function FilterBar() {
       }
 
       // Update global search state
-      if (window.coffeeShopSearch) {
+      if (typeof window !== "undefined" && window.coffeeShopSearch) {
         window.coffeeShopSearch.setSearchTerm(data.searchTerm)
       }
 
@@ -118,7 +118,7 @@ export function FilterBar() {
     setSearchError(null)
 
     // Update global search state
-    if (window.coffeeShopSearch) {
+    if (typeof window !== "undefined" && window.coffeeShopSearch) {
       window.coffeeShopSearch.clearSearch()
     }
   }
@@ -135,7 +135,7 @@ export function FilterBar() {
       setFilters(emptyFilters)
 
       // Update global search state
-      if (window.coffeeShopSearch) {
+      if (typeof window !== "undefined" && window.coffeeShopSearch) {
         window.coffeeShopSearch.clearFilters()
       }
 
@@ -197,23 +197,9 @@ export function FilterBar() {
         </form>
       </Form>
 
-      {/* Show filters directly without toggle button */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium text-primary">Filters</h3>
-          {activeFiltersCount > 0 && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 text-xs text-muted-foreground hover:text-primary hover:bg-muted"
-              onClick={clearAllFilters}
-            >
-              Clear all
-            </Button>
-          )}
-        </div>
-
-        <div className="flex flex-wrap gap-2">
+      {/* Filter options with responsive layout */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="flex flex-col flex-wrap gap-2 sm:flex-row">
           <div className="flex items-center space-x-2 p-2 rounded-md hover:bg-muted transition-colors">
             <Checkbox id="wifi" checked={filters.wifi} onCheckedChange={() => handleFilterChange("wifi")} />
             <Label htmlFor="wifi" className="text-sm font-medium leading-none cursor-pointer text-primary">
@@ -247,6 +233,17 @@ export function FilterBar() {
             </Label>
           </div>
         </div>
+
+        {activeFiltersCount > 0 && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 text-xs text-muted-foreground hover:text-primary hover:bg-muted self-start sm:self-center"
+            onClick={clearAllFilters}
+          >
+            Clear all
+          </Button>
+        )}
       </div>
     </div>
   )
